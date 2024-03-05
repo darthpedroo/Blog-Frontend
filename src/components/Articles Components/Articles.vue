@@ -11,11 +11,13 @@ onMounted(() => getAllArticles(response))
     <div>
         <div v-if="response != null && response.length > 0">
             <li v-for="data in response" :key="response.id">
-                <h2> {{ data.title }}</h2>
+                <router-link :to="'/article/' + data.id">
+                    <h1> {{ data.title }}</h1>
+                </router-link>
             </li>
         </div>
         <div v-else>
             Data is fetching--
         </div>
     </div>
-</template>../utils/getAllArticles
+</template>
