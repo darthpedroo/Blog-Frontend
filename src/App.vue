@@ -1,14 +1,8 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue';
 </script>
 
 <template>
-  <header>
-    <HelloWorld></HelloWorld>
-  </header>
-
-  <main>
-  </main>
+  <RouterView></RouterView>
 </template>
 
 <style scoped>
