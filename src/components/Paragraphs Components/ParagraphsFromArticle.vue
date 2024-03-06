@@ -34,16 +34,12 @@ function updateParagraph(paragraph){
 
 <template>
 
-    <button @click="putSingleParagraph(18, {'id':18, 'text':'probando el puto fallo', 'index_order':1, 'articleId':5 })" >idiot</button>
-
     <div v-if="response != null && response.length > 0">
         <div v-for="paragraph in response">
-
             <textarea v-on:keyup.enter="updateParagraph(paragraph)"  ref="textareaRef" id="nigga" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" :readonly="false"  v-model="paragraph.text" ></textarea>
-    
             <h1 v-else @click="setParagraphBeingEdited(paragraph.id)"> {{ paragraph.text }}</h1>
-            
         </div>
+        <textarea></textarea>
 
     </div>
     <div v-else-if="response != null && response.length == 0">
