@@ -12,6 +12,7 @@ const articleId = route.params.id
 const response = ref(null)
 const amountOfParagraphs = ref(null)
 
+
 onMounted(() => {
   getParagraphsFromArticle(response, articleId)
    
@@ -47,6 +48,13 @@ function postParagraph(text){
     
     postSingleParagraph(body);
     amountOfParagraphs.value += 1;
+
+    
+    setTimeout(() => {
+
+        window.location.reload()
+  
+}, 500); 
 }
 
 
