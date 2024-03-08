@@ -91,11 +91,9 @@ watch(amountOfParagraphs, ()=> {
     <div v-if="response != null && response.length > 0">
 
         <div v-for="paragraph in response " :key="index">
-            <textarea v-on:keyup.enter="updateParagraph(paragraph)"  ref="textareaRef" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" v-model="paragraph.text" ></textarea>
+            <textarea class="textarea"  v-on:keyup.enter="updateParagraph(paragraph)"  ref="textareaRef" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" v-model="paragraph.text" ></textarea>
             <h1 v-else @click="setParagraphBeingEdited(paragraph.id)">{{ paragraph.text }}</h1>
-
             <button @click="deleteParagraph(paragraph.id)">BORRAR:{{ paragraph.id }}</button>
-            <h6>index_order: {{ paragraph.index_order }}</h6>
         </div>
 
     </div>
@@ -106,8 +104,40 @@ watch(amountOfParagraphs, ()=> {
             Paragraphs are fetching
     </div>
 
-    <textarea v-on:keyup.enter="postParagraph(getTextAreaContent($event.target.value))">
+    <textarea class="textarea" placeholder="Type here..." v-on:keyup.enter="postParagraph(getTextAreaContent($event.target.value))">
     </textarea>
 
 
-</template>@/utils/deleteSingleParagraph
+</template>
+
+<style>
+    .textarea {
+        background-color: #ddd;
+        color: #666;
+        padding: 1em;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        outline: none;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-weight: 800;
+        font-size: 16px;
+        line-height: 2.4;
+        width: 600px;
+        height: 100px;
+        transition: all 0.2 ;
+        resize: none;
+    }
+
+    .textarea:hover{
+        cursor: pointer;
+        background-color: #eee;
+    }
+
+    .textarea:focus {
+        cursor: text;
+        color: #333;
+        background-color: white;
+        border-color: #333;
+    }
+
+</style>
