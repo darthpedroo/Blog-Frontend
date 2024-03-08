@@ -66,10 +66,6 @@ function getAmountOfParagraphs(){
     }
 }
 
-function test(){
-    amountOfParagraphs.value -=1
-}
-
 function getTextAreaContent(value){
     return value
 }
