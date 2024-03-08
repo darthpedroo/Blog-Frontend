@@ -65,6 +65,11 @@ function getTextAreaContent(value){
     return value
 }
 
+watch(response, () => {
+    console.log("response: ", response.value)
+  amountOfParagraphs.value = getAmountOfParagraphs()
+});
+
 </script>
 
 <template>
