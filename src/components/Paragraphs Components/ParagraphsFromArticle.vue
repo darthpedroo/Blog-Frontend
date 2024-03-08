@@ -32,6 +32,10 @@ function updateParagraph(paragraph){
 function postParagraph(text){
 
     
+    
+    console.log(text)
+
+    
 
     if (amountOfParagraphs.value === null)  {
         amountOfParagraphs.value = getAmountOfParagraphs()+1
@@ -49,15 +53,7 @@ function postParagraph(text){
     postSingleParagraph(body);
     amountOfParagraphs.value += 1;
 
-    
-    setTimeout(() => {
-
-        window.location.reload()
-  
-}, 500); 
 }
-
-
 
 function getAmountOfParagraphs(){
 
@@ -76,7 +72,18 @@ function getTextAreaContent(value){
 watch(response, () => {
     console.log("response: ", response.value)
   amountOfParagraphs.value = getAmountOfParagraphs()
+
+  
 });
+
+watch(amountOfParagraphs, ()=> {
+    getParagraphsFromArticle(response, articleId)
+    
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+        textarea.value = '';
+    }
+})
 
 </script>
 
@@ -97,7 +104,7 @@ watch(response, () => {
             Paragraphs are fetching
     </div>
 
-    <textarea @input="getTextAreaContent($event.target.value)" v-on:keyup.enter="postParagraph(getTextAreaContent($event.target.value))">
+    <textarea v-on:keyup.enter="postParagraph(getTextAreaContent($event.target.value))">
     </textarea>
 
 
