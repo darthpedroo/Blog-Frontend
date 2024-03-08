@@ -3,6 +3,7 @@
 import {getParagraphsFromArticle} from '@/utils/getParagraphsFromArticle'
 import { putSingleParagraph } from '@/utils/putSingleParagraph';
 import { postSingleParagraph } from '@/utils/postSingleParagraph';
+import { deleteSingleParagraph } from '@/utils/deleteSingleParagraph';
 import {ref, watch , onMounted} from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -31,17 +32,9 @@ function updateParagraph(paragraph){
 
 function postParagraph(text){
 
-    
-    
-    console.log(text)
-
-    
-
     if (amountOfParagraphs.value === null)  {
         amountOfParagraphs.value = getAmountOfParagraphs()+1
-    }
-
-    
+    }    
     const index_order = amountOfParagraphs.value
     console.log(index_order)
     const body = {
@@ -55,9 +48,17 @@ function postParagraph(text){
 
 }
 
+function deleteParagraph(paragraphId){ //Sometimes the console.log don't work and therefore it doesn' trigger the watcher and the amount of Paragrpahs doesn't updates and everythin breaks
+    console.log(amountOfParagraphs.value)
+    amountOfParagraphs.value -= 1;
+    deleteSingleParagraph(paragraphId)
+    console.log(amountOfParagraphs.value)
+}
+
 function getAmountOfParagraphs(){
 
     if(response !== null){
+        
        return response.value.length
     }
     else {
@@ -65,20 +66,22 @@ function getAmountOfParagraphs(){
     }
 }
 
+function test(){
+    amountOfParagraphs.value -=1
+}
+
 function getTextAreaContent(value){
     return value
 }
 
 watch(response, () => {
-    console.log("response: ", response.value)
   amountOfParagraphs.value = getAmountOfParagraphs()
-
-  
 });
 
 watch(amountOfParagraphs, ()=> {
-    getParagraphsFromArticle(response, articleId)
+    console.log("DONDE ESTA EL WATCHERR ?")
     
+    getParagraphsFromArticle(response, articleId)
     const textarea = document.querySelector('textarea');
     if (textarea) {
         textarea.value = '';
@@ -94,6 +97,9 @@ watch(amountOfParagraphs, ()=> {
         <div v-for="paragraph in response " :key="index">
             <textarea v-on:keyup.enter="updateParagraph(paragraph)"  ref="textareaRef" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" v-model="paragraph.text" ></textarea>
             <h1 v-else @click="setParagraphBeingEdited(paragraph.id)">{{ paragraph.text }}</h1>
+
+            <button @click="deleteParagraph(paragraph.id)">BORRAR:{{ paragraph.id }}</button>
+            <h6>index_order: {{ paragraph.index_order }}</h6>
         </div>
 
     </div>
@@ -108,4 +114,4 @@ watch(amountOfParagraphs, ()=> {
     </textarea>
 
 
-</template>
+</template>@/utils/deleteSingleParagraph

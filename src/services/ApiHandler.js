@@ -22,5 +22,11 @@ export default {
             'Content-Type': 'application/json', // Content-Type header
         };
         return API().post('paragraphs/', body, {headers})
-    }
+    },
+    deleteSingleParagraphHandler(paragraphId){
+        const headers= {
+            'Content-Type': 'application/json',
+          }
+        return API().delete(`paragraph/${paragraphId}`, {headers})
+    },
 }
