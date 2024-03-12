@@ -88,14 +88,17 @@ watch(amountOfParagraphs, ()=> {
 
 <template>
 
-    <div v-if="response != null && response.length > 0">
-
+    <div v-if="response != null && response.length > 0" class="container-fluid">
         <div v-for="paragraph in response " :key="index">
-            <textarea class="textarea"  v-on:keyup.enter="updateParagraph(paragraph)"  ref="textareaRef" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" v-model="paragraph.text" ></textarea>
-            <h1 v-else @click="setParagraphBeingEdited(paragraph.id)">{{ paragraph.text }}</h1>
-            <button @click="deleteParagraph(paragraph.id)">BORRAR:{{ paragraph.id }}</button>
+            <div class="row justify-text">
+                <textarea class="form-control textarea col-12 mx-auto" v-on:keyup.enter="updateParagraph(paragraph)" ref="textareaRef" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" v-model="paragraph.text"></textarea>
+                <p class="custom-font col-6 mx-auto text-justify" v-else @click="setParagraphBeingEdited(paragraph.id)">{{ paragraph.text }}</p>
+               <!--
+                <button class="btn btn-danger custom-font col-2 ml-5" @click="deleteParagraph(paragraph.id)">BORRAR:{{ paragraph.id }}</button>
+               --> 
+            </div>
+            
         </div>
-
     </div>
     <div v-else-if="response != null && response.length == 0">
         <h1>No hay parrafos todavia... Empezá a Escribir ! !  ! ! ! ! ! ! </h1>
@@ -104,13 +107,22 @@ watch(amountOfParagraphs, ()=> {
             Paragraphs are fetching
     </div>
 
-    <textarea class="textarea" placeholder="Type here..." v-on:keyup.enter="postParagraph(getTextAreaContent($event.target.value))">
-    </textarea>
-
+    <div class="row">
+        <textarea class="control textarea col-12 mx-auto" placeholder="Type here..." @click="setParagraphBeingEdited(null)" v-on:keyup.enter="postParagraph(getTextAreaContent($event.target.value))"></textarea>
+    </div>
+    
 
 </template>
 
 <style>
+
+
+
+    .custom-font {
+        font-family: 'Rubik', sans-serif;
+        font-weight: 200;
+    }
+
     .textarea {
         background-color: #ddd;
         color: #666;
@@ -118,7 +130,7 @@ watch(amountOfParagraphs, ()=> {
         border-radius: 10px;
         border: 2px solid transparent;
         outline: none;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-family: 'Rubik', sans-serif;
         font-weight: 800;
         font-size: 16px;
         line-height: 2.4;

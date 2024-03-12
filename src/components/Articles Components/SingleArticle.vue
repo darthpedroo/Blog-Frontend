@@ -12,11 +12,11 @@ onMounted(() => getSingleArticle(response, articleId))
 </script>
 
 <template>
-    <div v-if="response != null && response.length > 0">
-        <h1>{{ response[0].title }}</h1>
+    <div v-if="response != null && response.length > 0" class="row">
+        <h1 class="col-6 mx-auto text-center sex">{{ response[0].title }}</h1>
     </div>
     <div v-else-if="response != null && response.length == 0">
-        <h1>No se macheo el articulo</h1>
+        <h1 class="col-6 mx-auto text-center">No se macheo el articulo</h1>
     </div>
 
     <div v-else>
@@ -25,3 +25,13 @@ onMounted(() => getSingleArticle(response, articleId))
     
     <ParagraphsFromArticle></ParagraphsFromArticle>
 </template>
+
+<style>
+
+.sex {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+}
+
+
+</style>
