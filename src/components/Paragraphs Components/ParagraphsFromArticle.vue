@@ -7,6 +7,8 @@ import { deleteSingleParagraph } from '@/utils/deleteSingleParagraph';
 import {ref, watch , onMounted} from 'vue'
 import { useRoute } from 'vue-router'
 
+import './ParagraphsFromArticle.css'
+
 const currentParagraphBeingEdited = ref(null)
 const route = useRoute()
 const articleId = route.params.id
@@ -18,6 +20,10 @@ onMounted(() => {
   getParagraphsFromArticle(response, articleId)
    
 });
+
+function incrementAmountOfParagraphs(){
+    amountOfParagraphs.value += 1;
+}
 
 function setParagraphBeingEdited(paragraphId){
     currentParagraphBeingEdited.value = paragraphId
@@ -31,21 +37,17 @@ function updateParagraph(paragraph){
 }
 
 function postParagraph(text){
-
     if (amountOfParagraphs.value === null)  {
         amountOfParagraphs.value = getAmountOfParagraphs()+1
     }    
     const index_order = amountOfParagraphs.value
-    console.log(index_order)
     const body = {
         'text': text,
         'articleId': articleId,
         'index_order': index_order
     }
+    postSingleParagraph(body, incrementAmountOfParagraphs);
     
-    postSingleParagraph(body);
-    amountOfParagraphs.value += 1;
-
 }
 
 function deleteParagraph(paragraphId){ //Sometimes the console.log don't work and therefore it doesn' trigger the watcher and the amount of Paragrpahs doesn't updates and everythin breaks
@@ -75,8 +77,6 @@ watch(response, () => {
 });
 
 watch(amountOfParagraphs, ()=> {
-    console.log("DONDE ESTA EL WATCHERR ?")
-    
     getParagraphsFromArticle(response, articleId)
     const textarea = document.querySelector('textarea');
     if (textarea) {
@@ -115,41 +115,5 @@ watch(amountOfParagraphs, ()=> {
 </template>
 
 <style>
-
-
-
-    .custom-font {
-        font-family: 'Rubik', sans-serif;
-        font-weight: 200;
-    }
-
-    .textarea {
-        background-color: #ddd;
-        color: #666;
-        padding: 1em;
-        border-radius: 10px;
-        border: 2px solid transparent;
-        outline: none;
-        font-family: 'Rubik', sans-serif;
-        font-weight: 800;
-        font-size: 16px;
-        line-height: 2.4;
-        width: 600px;
-        height: 100px;
-        transition: all 0.2 ;
-        resize: none;
-    }
-
-    .textarea:hover{
-        cursor: pointer;
-        background-color: #eee;
-    }
-
-    .textarea:focus {
-        cursor: text;
-        color: #333;
-        background-color: white;
-        border-color: #333;
-    }
 
 </style>
