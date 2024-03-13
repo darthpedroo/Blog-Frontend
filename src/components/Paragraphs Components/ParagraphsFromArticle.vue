@@ -25,6 +25,10 @@ function incrementAmountOfParagraphs(){
     amountOfParagraphs.value += 1;
 }
 
+function decreaseAmountOfParagraphs(){
+    amountOfParagraphs.value -= 1;
+}
+
 function setParagraphBeingEdited(paragraphId){
     currentParagraphBeingEdited.value = paragraphId
 }
@@ -51,10 +55,9 @@ function postParagraph(text){
 }
 
 function deleteParagraph(paragraphId){ //Sometimes the console.log don't work and therefore it doesn' trigger the watcher and the amount of Paragrpahs doesn't updates and everythin breaks
-    console.log(amountOfParagraphs.value)
-    amountOfParagraphs.value -= 1;
-    deleteSingleParagraph(paragraphId)
-    console.log(amountOfParagraphs.value)
+    
+    deleteSingleParagraph(paragraphId, decreaseAmountOfParagraphs)
+    
 }
 
 function getAmountOfParagraphs(){
@@ -92,10 +95,13 @@ watch(amountOfParagraphs, ()=> {
         <div v-for="paragraph in response " :key="index">
             <div class="row justify-text">
                 <textarea class="form-control textarea col-12 mx-auto" v-on:keyup.enter="updateParagraph(paragraph)" ref="textareaRef" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" v-model="paragraph.text"></textarea>
-                <p class="custom-font col-6 mx-auto text-justify" v-else @click="setParagraphBeingEdited(paragraph.id)">{{ paragraph.text }}</p>
-               <!--
-                <button class="btn btn-danger custom-font col-2 ml-5" @click="deleteParagraph(paragraph.id)">BORRAR:{{ paragraph.id }}</button>
-               --> 
+                <p class="custom-font col-5 mx-auto text-justify" v-else @click="setParagraphBeingEdited(paragraph.id)">{{ paragraph.text }}</p>
+                
+                <div class="row">
+                    <button class="btn btn-danger custom-font col-2 mx-auto px-0" @click="deleteParagraph(paragraph.id)">BORRAR:{{ paragraph.id }}</button>
+                </div>
+               
+               
             </div>
             
         </div>
@@ -110,6 +116,8 @@ watch(amountOfParagraphs, ()=> {
     <div class="row">
         <textarea class="control textarea col-12 mx-auto" placeholder="Type here..." @click="setParagraphBeingEdited(null)" v-on:keyup.enter="postParagraph(getTextAreaContent($event.target.value))"></textarea>
     </div>
+
+    <img src="https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_3x2.jpg" alt="perro puto" width="200" height="300">
     
 
 </template>
