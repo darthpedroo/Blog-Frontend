@@ -14,7 +14,7 @@ const route = useRoute()
 const articleId = route.params.id
 const response = ref(null)
 const amountOfParagraphs = ref(null)
-
+const image = ref(null)
 
 onMounted(() => {
   getParagraphsFromArticle(response, articleId)
@@ -87,6 +87,15 @@ watch(amountOfParagraphs, ()=> {
     }
 })
 
+function addImageToParagraph(event,paragraph){
+    console.log(paragraph)
+    const img = URL.createObjectURL(event.target.files[0])
+    image.value = img
+    console.log(img)
+    
+
+}
+
 </script>
 
 <template>
@@ -94,16 +103,22 @@ watch(amountOfParagraphs, ()=> {
     <div v-if="response != null && response.length > 0" class="container-fluid">
         <div v-for="paragraph in response " :key="index">
             <div class="row justify-text">
-                <textarea class="form-control textarea col-12 mx-auto" v-on:keyup.enter="updateParagraph(paragraph)" ref="textareaRef" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" v-model="paragraph.text"></textarea>
+                <textarea class="form-control textarea col-12 mx-auto" v-on:keyup.enter="updateParagraph(paragraph)" ref="textareaRef" v-if="currentParagraphBeingEdited == paragraph.id" @click="setParagraphBeingEdited(paragraph.id)" v-model="paragraph.text"></textarea>                
                 <p class="custom-font col-5 mx-auto text-justify" v-else @click="setParagraphBeingEdited(paragraph.id)">{{ paragraph.text }}</p>
                 
-                <div class="row">
-                    <button class="btn btn-danger custom-font col-2 mx-auto px-0" @click="deleteParagraph(paragraph.id)">BORRAR:{{ paragraph.id }}</button>
-                </div>
-               
-               
             </div>
             
+            <div class="row">
+                <div class="col-8 mx-auto text-center">
+                    <img class="img-fluid " v-if="paragraph.image_url !== ''" :src="'http://localhost:8000/media/'+paragraph.image_url">
+                    <input v-else type="file" @change="addImageToParagraph($event, paragraph)">
+                </div>
+
+                <div class="col-10 mx-auto text-center my-5">
+                    <button class="btn btn-danger custom-font col-2 mx-auto px-0" @click="deleteParagraph(paragraph.id)">BORRAR:{{ paragraph.id }}</button>
+                </div>
+
+            </div>                
         </div>
     </div>
     <div v-else-if="response != null && response.length == 0">
@@ -116,9 +131,6 @@ watch(amountOfParagraphs, ()=> {
     <div class="row">
         <textarea class="control textarea col-12 mx-auto" placeholder="Type here..." @click="setParagraphBeingEdited(null)" v-on:keyup.enter="postParagraph(getTextAreaContent($event.target.value))"></textarea>
     </div>
-
-    <img src="https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_3x2.jpg" alt="perro puto" width="200" height="300">
-    
 
 </template>
 
